@@ -9,6 +9,45 @@
   "use strict";
 
   /**
+   * Theme Switcher Handler
+   */
+  const initTheme = () => {
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    
+    if (themeToggle && themeIcon) {
+      const savedTheme = localStorage.getItem('theme');
+      const initialTheme = savedTheme || 'dark';
+      
+      const applyTheme = (theme) => {
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        
+        if (theme === 'light') {
+          themeIcon.classList.remove('bi-moon-fill');
+          themeIcon.classList.add('bi-sun-fill');
+        } else {
+          themeIcon.classList.remove('bi-sun-fill');
+          themeIcon.classList.add('bi-moon-fill');
+        }
+      };
+      
+      applyTheme(initialTheme);
+      
+      themeToggle.addEventListener('click', () => {
+        const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme);
+      });
+    } else {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.body.setAttribute('data-theme', savedTheme);
+    }
+  };
+  
+  initTheme();
+
+  /**
    * Easy selector helper function
    */
   const select = (el, all = false) => {
